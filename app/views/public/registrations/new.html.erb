@@ -1,0 +1,32 @@
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="card p-4">
+    <h2 class="text-center mb-4">Sign up</h2>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "form"}) do |f| %>
+      <div class="form-group">
+        <%= f.label :account_name %>
+        <%= f.text_field :account_name, autofocus: true, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :email %>
+        <%= f.email_field :email, autocomplete: "email", class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password %>
+        <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password_confirmation %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+      </div>
+
+      <div class="text-center mt-4">
+        <%= f.submit "Sign up", class: "btn btn-primary btn-lg" %>
+      </div>
+    <% end %>
+
+    <%= render "public/shared/links" %>
+  </div>
+</div>
