@@ -9,6 +9,7 @@ devise_for :admin, controllers: {
   sessions: "admin/sessions"
 }
 
+
 # ユーザー側
 namespace :user do
   # トップページを投稿一覧へ
