@@ -9,39 +9,30 @@ devise_for :admin, controllers: {
   sessions: "admin/sessions"
 }
 
-# ユーザー情報関連のルーティング
-  resources :users, only: [:show, :edit, :update] do
-    # ユーザーが投稿した記事一覧のルーティング
-    member do
-      get 'posts', to: 'users#posts'
-    end
-  end
+# ユーザー側
+namespace :user do
+  # トップページを投稿一覧へ
+  root to: "spots#index"
+  # ホーム
+  get '/about' => 'homes#about', as: 'about'
+  # 投稿
+  resources :posts, only: [:edit, :update, :create, :new, :destroy, :show]
+  # ユーザー情報
+  get 'users/my_page' => 'users#show'
+  get 'users/information/edit' => 'users#edit'
+  patch 'users/my_page' => 'users#update'
+  get 'users/check' => 'users#check'
+  patch 'users/withdraw' => 'users#withdraw'
+  # 投稿一覧・検索
+  resources :spots, only: [:search]
+  # いいね
+  resources :favorites, only: [:create, :destroy]
+  # コメント
+  resources :comments, only: [:create, :destroy]
+  # フォロー
+  resources :follows, only: [:create, :destroy]
 
-  # 投稿関連のルーティング
-  resources :posts do
-    # コメント関連のルーティング
-    resources :comments, only: [:create, :destroy]
-  end
-
-  # 投稿検索関連のルーティング
-  get '/search', to: 'posts#search', as: 'search'
-
-  # about画面
-  get '/about', to: 'pages#about'
-
-  # 投稿編集と削除のルーティング
-  get '/posts/:id/edit', to: 'posts#edit'
-  patch '/posts/:id', to: 'posts#update'
-  delete '/posts/:id', to: 'posts#destroy'
-
-  # コメント削除のルーティング
-  delete '/comments/:id', to: 'comments#destroy', as: 'comment_destroy'
-
-  # 投稿詳細画面のルーティング
-  get '/spots/:id', to: 'spots#show', as: 'spot'
-
-  # ユーザー情報画面のルーティング
-  get '/users/:id', to: 'users#show', as: 'user_info'
+end
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

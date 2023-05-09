@@ -1,0 +1,26 @@
+<div class= "container-fluid bg-secondary">
+  <div class="row">
+    <div class="col-md-3 mt-5 mb-3">
+
+      <%= link_to root_path do %>
+        <i class="fas fa-motorcycle fa-flip-horizontal" style="color: #fe4639;"></i>
+      <% end %>
+
+    </div>
+    <div class="col-md-9 text-right mt-3 mb-5">
+      <p>
+        <% if customer_signed_in? %>
+          <%= link_to "マイページ", user_info,class: 'border border-dark btn btn-light text-dark' %>
+          <%= link_to "投稿一覧", spot_path,class: 'border border-dark btn btn-light text-dark' %>
+          <%= link_to "ユーザー投稿一覧", user_post_path,class: 'border border-dark btn btn-light text-dark' %>
+          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'border border-dark btn btn-light text-dark' %>
+        <% else %>
+          <%= link_to "About", about_path,class: 'border border-dark btn btn-light text-dark' %>
+          <%= link_to "投稿一覧", spot_path,class: 'border border-dark btn btn-light text-dark' %>
+          <%= link_to "ログイン", new_user_session_path,class: 'border border-dark btn btn-light text-dark' %>
+          <%= link_to "新規登録", new_user_registration_path,class: 'border border-dark btn btn-light text-dark' %>
+        <% end %>
+      </p>
+    </div>
+  </div>
+</div>
