@@ -1,0 +1,23 @@
+var posts = <%= @posts %>;
+var marker = [];
+var infoWindow = [];
+function initMap(){
+  for (let i = 0; i < posts.length; i++) {
+    marker[i] = new google.maps.Marker({
+      position: {lat: parseFloat(posts[i].latitude), lng: parseFloat(posts[i].longitude)},
+      map: map,
+      animation: google.maps.Animation.DROP
+    });
+    infoWindow[i] = new google.maps.InfoWindow({
+      content: posts[i].shop_name + "<br>" + "<a href='/posts/" + posts[i].id + "' target='_blank' style='color: #00f;'>このお店に関する投稿を表示</a>"
+    });
+    markerEvent(i);
+  }
+};
+initMap();
+
+function markerEvent(i) {
+  marker[i].addListener('click', function() { // マーカーをクリックしたとき
+    infoWindow[i].open(map, marker[i]); // 吹き出しの表示
+  });
+}

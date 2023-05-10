@@ -9,9 +9,8 @@ devise_for :admin, controllers: {
   sessions: "admin/sessions"
 }
 
-
 # ユーザー側
-namespace :user do
+namespace :public do
   # トップページを投稿一覧へ
   root to: "spots#index"
   # ホーム
@@ -25,7 +24,12 @@ namespace :user do
   get 'users/check' => 'users#check'
   patch 'users/withdraw' => 'users#withdraw'
   # 投稿一覧・検索
-  resources :spots, only: [:search]
+  resources :spots, only: [:index] do
+      collection do
+        get :search
+        get :maps
+      end
+    end
   # いいね
   resources :favorites, only: [:create, :destroy]
   # コメント

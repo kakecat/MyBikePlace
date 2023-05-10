@@ -1,0 +1,54 @@
+<!--form_with と radio_button で、どのユーザーの投稿を地図に表示させるか選択する-->
+<%= form_with url: public_spots_path, method: :get do |f| %>
+  <%= f.radio_button :posts, "all_user", checked: true %>全てのユーザーの投稿
+  <%= f.radio_button :posts, "following", disabled: current_user.nil? %>自分とフォロー中のユーザーの投稿
+  <%= f.radio_button :posts, "current_user", disabled: current_user.nil? %>自分の投稿
+  <%= f.submit '投稿されたお店を表示', class: "btn btn-primary" %>
+  <button type="button" class="btn btn-success current_position" onclick="getLocation()">
+    地図を現在地周辺に切り替える
+  </button>
+<% end %>
+
+<h2>gmap</h2>
+<div id='map'></div>
+
+<style>
+#map {
+  height: 600px;
+  width: 600px;
+}
+</style>
+
+<script>
+let map
+
+function initMap(){
+  geocoder = new google.maps.Geocoder()
+
+  map = new google.maps.Map(document.getElementById('map'), {
+    //latが緯度、lngが経度を示す
+    center: {lat: 40.7828, lng:-73.9653},
+    // 数値は0〜21まで指定できます。数値が大きいほど拡大されます
+    zoom: 12,
+  });
+
+  //positionに指定した座標にピンを表示させます
+  marker = new google.maps.Marker({
+    position:  {lat: 40.7828, lng:-73.9653},
+    map: map
+  });
+}
+
+function getLocation(){ // 現在地周辺に地図を移動させる
+  navigator.geolocation.getCurrentPosition(
+    function(position) {
+      var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
+      var latlng = new google.maps.LatLng(latitude, longitude);
+      map.setCenter(latlng);
+      map.setZoom(12);
+    }
+  );
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_KEY'] %>&callback=initMap" async defer></script>
