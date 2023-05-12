@@ -1,18 +1,18 @@
 class Public::SpotsController < ApplicationController
   def index
-    @posts = Post.all.to_json.html_safe
+    @posts = Post.all
   end
 
   def map
     if params[:posts] == "all_user"
-      @posts = Post.all.to_json.html_safe
+      @posts = Post.all
     elsif params[:posts] == "current_user"
-      @posts = current_user.posts.to_json.html_safe
+      @posts = current_user.posts
     elsif params[:posts] == "following"
-      @posts = current_user.feed.to_json.html_safe
+      @posts = current_user.feed
     end
     respond_to do |format|
-      format.js { render json: @posts }
+      format.js
     end
   end
 end

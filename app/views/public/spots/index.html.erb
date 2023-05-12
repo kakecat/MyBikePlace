@@ -1,4 +1,4 @@
-<!--form_with と radio_button で、どのユーザーの投稿を地図に表示させるか選択する-->
+<!-- form_with と radio_button で、どのユーザーの投稿を地図に表示させるか選択する -->
 <div class="post_search_map">
   <h3>地図から投稿を検索</h3>
   <%= form_with url: public_spots_path, method: :get do |f| %>
@@ -14,52 +14,50 @@
     </button>
   <% end %>
 
-        <h2>gmap</h2>
-      <div id='map'></div>
-
-      <style>
-      #map {
-        height: 600px;
-        width: 600px;
-      }
-      </style>
-
-      <script>
-      let map
-
-      function initMap(){
-        geocoder = new google.maps.Geocoder()
-
-        map = new google.maps.Map(document.getElementById('map'), {
-          //latが緯度、lngが経度を示す
-          center: {lat: 35.6803997, lng:139.7690174},  //東京
-          // 数値は0〜21まで指定できます。数値が大きいほど拡大されます
-          zoom: 15,
-        });
-
-        //positionに指定した座標にピンを表示させます
-        marker = new google.maps.Marker({
-          position:  {lat: 40.7828, lng:-73.9653},
-          map: map
-        });
-      }
-
-      function getLocation(){ // 現在地周辺に地図を移動させる
-        navigator.geolocation.getCurrentPosition(
-          function(position) {
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            var latlng = new google.maps.LatLng(latitude, longitude);
-            map.setCenter(latlng);
-            map.setZoom(12);
-          }
-        );
-      }
-      </script>
-
-
-  <div id="map_index"></div>
+  <h2>Map</h2>
+  <div id='map'></div>
 </div>
-<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_KEY'] %>&callback=initMap" async defer></script>
+
+<style>
+#map {
+  height: 600px;
+  width: 600px;
+}
+</style>
+
+<script>
+let map;
+
+function initMap(){
+  geocoder = new google.maps.Geocoder();
+
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 35.6803997, lng:139.7690174},  //東京
+    zoom: 15,
+  });
+
+  // positionに指定した座標にピンを表示させます
+  marker = new google.maps.Marker({
+    position:  {lat: 40.7828, lng:-73.9653},
+    map: map
+  });
+}
+
+function getLocation(){ // 現在地周辺に地図を移動させる
+  navigator.geolocation.getCurrentPosition(
+    function(position) {
+      var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
+      var latlng = new google.maps.LatLng(latitude, longitude);
+      map.setCenter(latlng);
+      map.setZoom(12);
+    }
+  );
+}
+
+initMap(); // initMap関数を呼び出して地図を初期化する
+</script>
+
 <%= render 'public/spots/index_map' %>
 
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_KEY'] %>&callback=initMap" async defer></script>

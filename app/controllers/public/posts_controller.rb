@@ -1,5 +1,5 @@
 class Public::PostsController < ApplicationController
-  
+
   def new
     @post = Post.new(latitude: '緯度', longitude: '経度')
   end
