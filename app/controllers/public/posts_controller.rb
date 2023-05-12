@@ -1,21 +1,19 @@
 class Public::PostsController < ApplicationController
-
-  def index
+  
+  def new
+    @post = Post.new(latitude: '緯度', longitude: '経度')
   end
 
+  def create
+    @post = Post.new(post_params)
+    if @post.save
+      redirect_to @post, notice: 'Post was successfully created.'
+    else
+      render :new
+    end
+  end
 
-# mapsコントローラのmapアクションで、投稿内容を含む変数@postsを定義
-# (投稿内容は.to_jsonでjson形式に変換、respond_to doで返す)
-  def maps
-    if params[:posts] == "all_user"
-      @posts = Post.all.to_json.html_safe
-    elsif params[:posts] == "current_user"
-      @posts = current_user.posts.to_json.html_safe
-    elsif params[:posts] == "following"
-      @posts = current_user.feed.to_json.html_safe
-    end
-    respond_to do |format|
-      format.js { @posts }
-    end
+  def post_params
+      params.require(:post).permit(:title, :content, :latitude, :longitude)
   end
 end

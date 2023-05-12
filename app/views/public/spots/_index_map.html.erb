@@ -1,0 +1,53 @@
+<script>
+  
+
+  // ループを使用して複数のマーカーを地図上に表示する
+  for (let i = 0; i < posts.length; i++) {
+    const position = {lat: parseFloat(posts[i].latitude), lng: parseFloat(posts[i].longitude)};
+    marker[i] = new google.maps.Marker({
+      position: position,
+      map: map,
+      animation: google.maps.Animation.DROP    //マーカーにアニメーション追加
+    });
+  
+    // マーカーに関連付けられた情報ウィンドウを作成し、それぞれのマーカーにイベントを設定
+    const content =
+      posts[i].title + "<br>" +
+      "<a href='/posts/" + posts[i].id + "' target='_blank' style='color: #00f;'>この投稿を表示</a>" + "<br>" +
+      "<img src=" + posts[i].picture.url + " width=100>";
+    infoWindow[i] = new google.maps.InfoWindow({
+      content: content
+    });
+    markerEvent(i);
+  }
+  
+  function markerEvent(i) {
+    marker[i].addListener('click', function() { // マーカーをクリックしたとき
+      infoWindow[i].open(map, marker[i]); // 吹き出しの表示
+    });
+  }
+  
+  function getLocation(){
+    navigator.geolocation.getCurrentPosition(
+      function(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        const latlng = new google.maps.LatLng(latitude, longitude);
+        map.setCenter(latlng);
+        map.setZoom(12);
+      }
+    );
+  }
+  
+  function deleteMarkers() { // 既存のマーカーを削除
+    for (let i = 0; i < marker.length; i++) {
+      if (marker[i] != null) {
+        marker[i].setMap(null);
+      }
+    }
+  }
+  
+  // deleteMarkers 関数を呼び出します
+  deleteMarkers();
+}
+</script>

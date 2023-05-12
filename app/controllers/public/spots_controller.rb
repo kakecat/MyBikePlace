@@ -1,11 +1,9 @@
 class Public::SpotsController < ApplicationController
   def index
+    @posts = Post.all.to_json.html_safe
   end
 
-
-# mapsコントローラのmapアクションで、投稿内容を含む変数@postsを定義
-# (投稿内容は.to_jsonでjson形式に変換、respond_to doで返す)
-  def maps
+  def map
     if params[:posts] == "all_user"
       @posts = Post.all.to_json.html_safe
     elsif params[:posts] == "current_user"
@@ -14,7 +12,7 @@ class Public::SpotsController < ApplicationController
       @posts = current_user.feed.to_json.html_safe
     end
     respond_to do |format|
-      format.js { @posts }
+      format.js { render json: @posts }
     end
   end
 end
