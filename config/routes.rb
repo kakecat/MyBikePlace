@@ -7,11 +7,11 @@ Rails.application.routes.draw do
   devise_for :admin, controllers: {
     sessions: "admin/sessions"
   }
-
+root to: "public/spots#index"
   # ユーザー側
   namespace :public do
     # トップページを投稿一覧へ
-    root to: "public/spots#index"
+    
     # ホーム
     get '/about' => 'homes#about', as: 'about'
     # 投稿

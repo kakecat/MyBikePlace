@@ -1,0 +1,43 @@
+<div class= "container">
+  <div class= "row">
+
+    <div class= "col-lg-3 offset-lg-1">
+      <h3 class= "bg-light text-center">投稿詳細</h3>
+    </div>
+  </div>
+
+  <div class='row'>
+    <div class="col-lg-5 text-center">
+      <%= image_tag @post.get_image, size:"300x200" %>
+    </div>
+
+    <div class='col-lg-6 offset-lg-1 text-left'>
+      <table>
+        <tr>
+          <th>
+            投稿タイトル
+          </th>
+          <td>
+            <%= @post.title %>
+          </td>
+        </tr>
+        <tr>
+          <th>
+            内容
+          </th>
+          <td>
+            <%= @post.content %>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    </div>
+
+    <div class="actions col-xs-9  text-center">
+	      		<%= link_to "編集する", edit_public_post_path(@post), class: "btn btn-success" %>
+      	  </div>
+
+
+
+</div>

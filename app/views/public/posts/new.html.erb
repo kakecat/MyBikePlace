@@ -5,9 +5,11 @@
     <%= f.label :content, "内容" %>
     <%= f.text_area :content %>
     <%= f.label :latitude, "緯度" %>
-    <%= f.text_field :latitude, value: params[:latitude], id: :latitude %>
+    <%= f.text_field :latitude, value: @post.latitude, id: :latitude %>
     <%= f.label :longitude, "経度" %>
     <%= f.text_field :longitude, value: @post.longitude, id: :longitude %>
+    <%= f.label :image, "画像のアップロード" %>
+    <%= f.file_field :spot_image %>
     <%= f.submit 'Create Post' %>
   </div>
 <% end %>

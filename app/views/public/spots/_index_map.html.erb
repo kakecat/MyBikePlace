@@ -1,8 +1,8 @@
 <script>
   // ループを使用して複数のマーカーを地図上に表示する
-  <% if @posts.present? %>
-    <% @posts.each do |post| %>
-      const position = {lat: <%= post.latitude %>, lng: <%= post.longitude %>};
+
+    <% Post.all.each do |post| %>
+      const position = {lat: <%= post.spot.latitude %>, lng: <%= post.longitude %>};
       marker.push(new google.maps.Marker({
         position: position,
         map: map,
@@ -18,7 +18,7 @@
       });
       markerEvent(i);
     <% end %>
-  <% end %>
+
 
   function markerEvent(i) {
     marker[i].addListener('click', function () {

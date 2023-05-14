@@ -3,11 +3,15 @@
   <h3>地図から投稿を検索</h3>
   <%= form_with url: public_spots_path, method: :get do |f| %>
     <span><%= f.radio_button :posts, "all_user", checked: true %>全てのユーザーの投稿</span>
-    <span><%= f.radio_button :posts, "following", disabled: current_user.nil? %>自分とフォロー中のユーザーの投稿</span>
-    <span><%= f.radio_button :posts, "current_user", disabled: current_user.nil? %>自分の投稿</span>
+    <% if current_user %>
+      <span><%= f.radio_button :posts, "following" %>自分とフォロー中のユーザーの投稿</span>
+      <span><%= f.radio_button :posts, "current_user" %>自分の投稿</span>
+    <% end %>
 
     <!-- deleteMarkers()で既存のマーカーを削除してから指定の投稿を表示 -->
-    <%= f.submit '投稿されたSPOTを表示', class: "btn btn-primary", onclick: "deleteMarkers()" %>
+    <%= f.button type: 'submit', class: "btn btn-primary", onclick: "deleteMarkers(); return false;" do %>
+      投稿されたSPOTを表示
+    <% end %>
 
     <button type="button" class="btn btn-success current_position" onclick="getLocation()">
       地図を現在地周辺に切り替える
@@ -26,38 +30,59 @@
 </style>
 
 <script>
-let map;
 
-function initMap(){
-  geocoder = new google.maps.Geocoder();
+  let map;
+  let marker = []; // マーカーを複数表示させたいので、配列化
+  let infoWindow = []; // 吹き出しを複数表示させたいので、配列化
+  let markerData = gon.spots; // コントローラーで定義したインスタンス変数を変数に代入
+  console.log(gon)
+  let id = markerData[i]['id'] // 各ユーザーのIDを変数化
 
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 35.6803997, lng:139.7690174},  //東京
-    zoom: 15,
-  });
+  function initMap() {
+    geocoder = new google.maps.Geocoder()
 
-  // positionに指定した座標にピンを表示させます
-  marker = new google.maps.Marker({
-    position:  {lat: 40.7828, lng:-73.9653},
-    map: map
-  });
-}
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: { lat: 35.6585, lng: 139.7486 }, // 東京タワーを中心に表示させている
+      zoom: 12,
+    });
 
-function getLocation(){ // 現在地周辺に地図を移動させる
-  navigator.geolocation.getCurrentPosition(
-    function(position) {
-      var latitude = position.coords.latitude;
-      var longitude = position.coords.longitude;
-      var latlng = new google.maps.LatLng(latitude, longitude);
-      map.setCenter(latlng);
-      map.setZoom(12);
+
+    // 繰り返し処理でマーカーと吹き出しを複数表示させる
+    for (var i = 0; i < markerData.length; i++) {
+      let id = markerData[i]['id']
+      // 各地点の緯度経度を算出
+      markerLatLng = new google.maps.LatLng({
+        lat: markerData[i]['latitude'],
+        lng: markerData[i]['longitude']
+      });
+
+
+      // 各地点のマーカーを作成
+      marker[i] = new google.maps.Marker({
+        position: markerLatLng,
+        map: map
+      });
+
+      // 各地点の吹き出しを作成
+      infoWindow[i] = new google.maps.InfoWindow({
+        // 吹き出しの内容 <a>タグでリンクを作成
+         content: `<a href='/public/posts/${ id }'>${ markerData[i]['title'] }</a>`
+      });
+
+
+      // マーカーにクリックイベントを追加
+      markerEvent(i);
     }
-  );
-}
+  }
 
-initMap(); // initMap関数を呼び出して地図を初期化する
+  // マーカーをクリックしたら吹き出しを表示
+  function markerEvent(i) {
+    marker[i].addListener('click', function () {
+      infoWindow[i].open(map, marker[i]);
+    });
+  }
 </script>
 
-<%= render 'public/spots/index_map' %>
+<%#= render partial: 'public/spots/index_map', locals: { posts: @posts } %>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_KEY'] %>&callback=initMap" async defer></script>
