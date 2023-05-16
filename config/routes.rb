@@ -7,15 +7,19 @@ Rails.application.routes.draw do
   devise_for :admin, controllers: {
     sessions: "admin/sessions"
   }
-root to: "public/spots#index"
+    # トップページを投稿一覧へ
+  root to: "public/spots#index"
   # ユーザー側
   namespace :public do
-    # トップページを投稿一覧へ
-    
+
+
     # ホーム
     get '/about' => 'homes#about', as: 'about'
     # 投稿
-    resources :posts, only: [:edit, :update, :create, :new, :destroy, :show]
+    resources :posts, only: [:edit, :update, :create, :new, :destroy, :show]  do
+      # コメント
+      resources :comments, only: [:create]
+    end
     # ユーザー情報
     get 'users/my_page' => 'users#show'
     get 'users/information/edit' => 'users#edit'
@@ -31,8 +35,7 @@ root to: "public/spots#index"
     end
     # いいね
     resources :favorites, only: [:create, :destroy]
-    # コメント
-    resources :comments, only: [:create, :destroy]
+
     # フォロー
     resources :follows, only: [:create, :destroy]
   end

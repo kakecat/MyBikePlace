@@ -19,6 +19,7 @@ class Public::PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    @comment = Comment.new
   end
 
   def edit
@@ -39,6 +40,8 @@ class Public::PostsController < ApplicationController
     post.destroy
      redirect_to new_public_post_path
   end
+  
+  private
 
   def post_params
       params.require(:post).permit(:title, :content, :latitude, :longitude, :post_image)
