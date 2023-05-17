@@ -34,16 +34,16 @@ class Public::PostsController < ApplicationController
       render "edit"
     end
   end
-  
+
   def destroy
     post = Post.find(params[:id])
     post.destroy
      redirect_to new_public_post_path
   end
-  
+
   private
 
   def post_params
-      params.require(:post).permit(:title, :content, :latitude, :longitude, :post_image)
+      params.require(:post).permit(:title, :content, :latitude, :longitude, :post)
   end
 end

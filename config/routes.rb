@@ -17,6 +17,8 @@ Rails.application.routes.draw do
     get '/about' => 'homes#about', as: 'about'
     # 投稿
     resources :posts, only: [:edit, :update, :create, :new, :destroy, :show]  do
+          # いいね
+      resource :favorites, only: [:create, :destroy]
       # コメント
       resources :comments, only: [:create]
     end
@@ -33,8 +35,7 @@ Rails.application.routes.draw do
         get :maps
       end
     end
-    # いいね
-    resources :favorites, only: [:create, :destroy]
+
 
     # フォロー
     resources :follows, only: [:create, :destroy]
