@@ -4,6 +4,15 @@ class Public::SpotsController < ApplicationController
     #gon.spots = Spot.all
 
     spots = Spot.joins(:post).select('spots.id,spots.latitude,spots.longitude,posts.title')
+   #   byebug
+
+    if params[:posts] == "all_user"
+      spots = Spot.joins(:post).select('spots.id,spots.latitude,spots.longitude,posts.title')
+    elsif params[:posts] == "current_user"
+      spots = current_user.spots.joins(:post).select('spots.id,spots.latitude,spots.longitude,posts.title')
+    elsif params[:posts] == "following"
+      spots = Spot.joins(:post).select('spots.id,spots.latitude,spots.longitude,posts.title').where(user_id: current_user.follows.pluck(:id).push(current_user.id))
+    end
 
     gon.spots = spots.map do |spot|
       {
@@ -13,16 +22,6 @@ class Public::SpotsController < ApplicationController
         title: spot.title
       }
     end
-   #   byebug
-
-    if params[:posts] == "all_user"
-      gon.posts = Post.all
-    elsif params[:posts] == "current_user"
-      gon.posts = current_user.posts
-    elsif params[:posts] == "following"
-      gon.posts = current_user.follows
-    end
-
   end
 
   # def map

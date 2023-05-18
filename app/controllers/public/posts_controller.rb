@@ -1,4 +1,5 @@
 class Public::PostsController < ApplicationController
+ before_action :authenticate_user!, except: [:show]
 
   def new
     @post = Post.new(latitude: '緯度', longitude: '経度')
@@ -6,12 +7,12 @@ class Public::PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
-   spot = Spot.create!(longitude: params[:post][:longitude], latitude: params[:post][:latitude] , user_id: current_user.id)
-   @post.spot_id = spot.id
-   @post.user_id = current_user.id
+    spot = Spot.create!(longitude: params[:post][:longitude], latitude: params[:post][:latitude], user_id: current_user.id)
+    @post.spot_id = spot.id
+    @post.user_id = current_user.id
 
     if @post.save
-      redirect_to public_post_path(@post), notice: 'Post was successfully created.'
+      redirect_to public_post_path(@post), notice: '投稿成功しました！'
     else
       render :new
     end
@@ -29,21 +30,33 @@ class Public::PostsController < ApplicationController
   def update
     @post = Post.find(params[:id])
     if @post.update(post_params)
-      redirect_to public_post_path(@post), notice: "変更が成功しました。"
+      redirect_to public_post_path(@post), notice: '変更が成功しました！'
     else
-      render "edit"
+      render 'edit'
     end
   end
 
   def destroy
     post = Post.find(params[:id])
     post.destroy
-     redirect_to new_public_post_path
+    redirect_to new_public_post_path
+  end
+
+  def follow_user
+    @user = User.find(params[:id])
+    current_user.follow(@user)
+    redirect_to public_user_path(@user), notice: 'フォローしました！'
+  end
+
+  def unfollow_user
+    @user = User.find(params[:id])
+    current_user.unfollow(@user)
+    redirect_to public_user_path(@user), notice: 'フォローを解除しました！'
   end
 
   private
 
   def post_params
-      params.require(:post).permit(:title, :content, :latitude, :longitude, :post)
+    params.require(:post).permit(:title, :content, :latitude, :longitude, :post, :spot_image)
   end
 end

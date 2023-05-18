@@ -1,25 +1,45 @@
 <%= form_with(model: @post, url: public_posts_path, local: true) do |f| %>
-  <div class="actions">
-    <%= f.label :title, "タイトル" %>
-    <%= f.text_field :title %>
-    <%= f.label :content, "内容" %>
-    <%= f.text_area :content %>
-    <%= f.label :latitude, "緯度" %>
-    <%= f.text_field :latitude, value: @post.latitude, id: :latitude %>
-    <%= f.label :longitude, "経度" %>
-    <%= f.text_field :longitude, value: @post.longitude, id: :longitude %>
-    <%= f.label :image, "画像のアップロード" %>
-    <%= f.file_field :spot_image %>
-    <%= f.submit 'Create Post' %>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <%= f.label :title, "タイトル" %>
+          <%= f.text_field :title, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :content, "内容" %>
+          <%= f.text_area :content, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :latitude, "緯度" %>
+          <%= f.text_field :latitude, value: @post.latitude, id: :latitude, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :longitude, "経度" %>
+          <%= f.text_field :longitude, value: @post.longitude, id: :longitude, class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :image, "画像のアップロード" %>
+          <%= f.file_field :spot_image, class: "form-control-file" %>
+        </div>
+        <div class="form-group">
+          <%= f.submit 'Create Post', class: "btn btn-primary" %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h2>Map</h2>
+        <div class="form-group">
+          <input id="address" type="textbox" value="東京駅" class="form-control">
+        </div>
+        <div class="form-group">
+          <input type="button" value="検索" onclick="codeAddress()" class="btn btn-secondary">
+        </div>
+        <p>マーカーをドラック＆ドロップで位置の調整ができます。</p>
+        <div id="map"></div>
+      </div>
+    </div>
   </div>
 <% end %>
-
-<h2>Map</h2>
-
-<input id="address" type="textbox" value="東京駅">
-<input type="button" value="検索" onclick="codeAddress()">
-<p>マーカーをドラック＆ドロップで位置の調整ができます。<p>
-<div id='map'></div>
 
 <style>
 #map {

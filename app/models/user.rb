@@ -8,7 +8,12 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :posts, dependent: :destroy
   has_many :spots, dependent: :destroy
-  has_many :follows, dependent: :destroy
+  #少しややこしかったので要復習（追記、relationshipとかで作ればややこしくなかったのかも）
+  has_many :follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
+  has_many :reverse_of_follows, class_name: "Follow", foreign_key: "followed_id", dependent: :destroy
+  has_many :followings, through: :follows, source: :followed
+  has_many :followers, through: :reverse_of_follows, source: :follower
+
   has_one_attached :profile_image
 
   def get_profile_image(weight, height)
@@ -17,5 +22,15 @@ class User < ApplicationRecord
       profile_image.attach(io: File.open(file_path), filename: 'no_image.jpg', content_type: 'image/jpeg')
     end
     profile_image.variant(resize_to_limit: [weight, height]).processed
+  end
+
+  def follow(user_id)
+    relationships.create(followed_id: user_id)
+  end
+  def unfollow(user_id)
+    relationships.find_by(followed_id: user_id).destroy
+  end
+  def following?(user)
+    followings.include?(user)
   end
 end

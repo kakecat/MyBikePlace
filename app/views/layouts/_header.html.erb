@@ -11,12 +11,12 @@
       <p>
         <% if user_signed_in? %>
           <%= link_to "マイページ", public_users_my_page_path,class: 'border border-dark btn btn-light text-dark' %>
-          <%= link_to "投稿一覧", public_spots_path,class: 'border border-dark btn btn-light text-dark' %>
-          <%= link_to "新規投稿", new_public_post_path,class: 'border border-dark btn btn-light text-dark' %>
+          <%= link_to "投稿一覧", public_spots_path,'data-turbolinks': false, class: 'border border-dark btn btn-light text-dark' %>
+          <%= link_to "新規投稿", new_public_post_path, 'data-turbolinks': false, class: 'border border-dark btn btn-light text-dark' %>
           <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'border border-dark btn btn-light text-dark' %>
         <% else %>
           <%= link_to "About", public_about_path,class: 'border border-dark btn btn-light text-dark' %>
-          <%= link_to "投稿一覧", public_spots_path,class: 'border border-dark btn btn-light text-dark' %>
+          <%= link_to "投稿一覧", public_spots_path,'data-turbolinks': false, class: 'border border-dark btn btn-light text-dark' %>
           <%= link_to "ログイン", user_session_path,class: 'border border-dark btn btn-light text-dark' %>
           <%= link_to "新規登録", new_user_registration_path,class: 'border border-dark btn btn-light text-dark' %>
         <% end %>

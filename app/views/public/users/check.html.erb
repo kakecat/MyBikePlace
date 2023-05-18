@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="text-center display-4">
+    <h3>本当に退会しますか？</h3>
+  </div>
+  <div class="text-center">
+    <h6>
+      退会すると会員情報や<br>
+      これまでの投稿やコメント、いいねがすべて消えてしまいます。<br>
+      退会する場合は、「退会する」をクリックしてください。
+    </h6>
+  </div>
+  <div class="text-center">
+    <%= link_to "退会する", public_users_withdraw_path, class: "btn btn-danger", method: :patch, data: { confirm: "本当に退会しますか？" } %>
+    <%= link_to "退会しない", public_users_my_page_path, class: "btn btn-primary" %>
+  </div>
+</div>

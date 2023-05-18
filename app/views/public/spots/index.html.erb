@@ -36,7 +36,7 @@
   let infoWindow = []; // 吹き出しを複数表示させたいので、配列化
   let markerData = gon.spots; // コントローラーで定義したインスタンス変数を変数に代入
   console.log(gon)
-  let id = markerData[i]['id'] // 各ユーザーのIDを変数化
+  let id = null // 各ユーザーのIDを変数化
 
   function initMap() {
     geocoder = new google.maps.Geocoder()
