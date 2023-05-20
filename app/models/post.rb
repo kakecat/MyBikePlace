@@ -9,10 +9,13 @@ class Post < ApplicationRecord
   def get_image
     (spot_image.attached?) ? spot_image : 'default-image.jpg'
   end
-  
+
   def favorited_by?(user)
     favorites.exists?(user_id: user.id)
   end
+
+  validates :title, presence: { message: "タイトルを入力してください" }
+  validates :content, presence: { message: "内容を入力してください" }
 
   attribute :latitude, :float
   attribute :longitude, :float

@@ -8,13 +8,15 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :posts, dependent: :destroy
   has_many :spots, dependent: :destroy
-  #少しややこしかったので要復習（追記、relationshipとかで作ればややこしくなかったのかも）
+
   has_many :follows, class_name: "Follow", foreign_key: "follower_id", dependent: :destroy
   has_many :reverse_of_follows, class_name: "Follow", foreign_key: "followed_id", dependent: :destroy
   has_many :followings, through: :follows, source: :followed
   has_many :followers, through: :reverse_of_follows, source: :follower
 
   has_one_attached :profile_image
+
+
 
   def get_profile_image(weight, height)
     unless profile_image.attached?
@@ -25,10 +27,10 @@ class User < ApplicationRecord
   end
 
   def follow(user_id)
-    relationships.create(followed_id: user_id)
+    follows.create(follower_id: id, followed_id: user_id)
   end
   def unfollow(user_id)
-    relationships.find_by(followed_id: user_id).destroy
+    follows.find_by(follower_id: id, followed_id: user_id).destroy
   end
   def following?(user)
     followings.include?(user)

@@ -24,17 +24,5 @@ class Public::SpotsController < ApplicationController
     end
   end
 
-  # def map
-  #   # gon.posts = Post.all
-  #   if params[:posts] == "all_user"
-  #     gon.posts = Post.all
-  #   elsif params[:posts] == "current_user"
-  #     gon.posts = current_user.posts
-  #   elsif params[:posts] == "following"
-  #     gon.posts = current_user.feed
-  #   end
-  #   respond_to do |format|
-  #     format.js
-  #   end
-  # end
+
 end

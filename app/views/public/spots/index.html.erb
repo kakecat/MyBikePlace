@@ -1,33 +1,78 @@
-<!-- form_with と radio_button で、どのユーザーの投稿を地図に表示させるか選択する -->
 <div class="post_search_map">
   <h3>地図から投稿を検索</h3>
   <%= form_with url: public_spots_path, method: :get do |f| %>
-    <span><%= f.radio_button :posts, "all_user", checked: true %>全てのユーザーの投稿</span>
-    <% if current_user %>
-      <span><%= f.radio_button :posts, "following" %>自分とフォロー中のユーザーの投稿</span>
-      <span><%= f.radio_button :posts, "current_user" %>自分の投稿</span>
-    <% end %>
+    <div class="search-options">
+      <div class="search-option">
+        <%= f.radio_button :posts, "all_user", checked: true %>
+        <span>全てのユーザーの投稿</span>
+      </div>
+      <% if current_user %>
+        <div class="search-option">
+          <%= f.radio_button :posts, "following" %>
+          <span>自分とフォロー中のユーザーの投稿</span>
+        </div>
+        <div class="search-option">
+          <%= f.radio_button :posts, "current_user" %>
+          <span>自分の投稿</span>
+        </div>
+      <% end %>
+    </div>
 
-    <!-- deleteMarkers()で既存のマーカーを削除してから指定の投稿を表示 -->
-    <%= f.button type: 'submit', class: "btn btn-primary", onclick: "deleteMarkers(); return false;" do %>
-      投稿されたSPOTを表示
-    <% end %>
-
-    <button type="button" class="btn btn-success current_position" onclick="getLocation()">
-      地図を現在地周辺に切り替える
-    </button>
+    <div class="search-actions">
+      <%= f.button type: 'submit', class: "btn btn-primary", onclick: "deleteMarkers(); return false;" do %>
+        投稿されたSPOTを表示
+      <% end %>
+      <button type="button" class="btn btn-success current_position" onclick="getLocation()">
+        地図を現在地周辺に切り替える
+      </button>
+    </div>
   <% end %>
 
-  <h2>Map</h2>
-  <div id='map'></div>
+  <div class="map-container">
+    <h2>Map</h2>
+    <div id="map"></div>
+  </div>
 </div>
 
 <style>
+.post_search_map {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search-options {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.search-option {
+  display: flex;
+  align-items: center;
+}
+
+.search-option span {
+  margin-left: 5px;
+}
+
+.search-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.map-container {
+  width: 100%;
+  text-align: center;
+}
+
 #map {
   height: 600px;
-  width: 600px;
+  width: 100%;
 }
 </style>
+
 
 <script>
 
@@ -73,6 +118,18 @@
       // マーカーにクリックイベントを追加
       markerEvent(i);
     }
+  }
+  
+  function getLocation(){ // 現在地周辺に地図を移動させる
+    navigator.geolocation.getCurrentPosition(
+      function(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        var latlng = new google.maps.LatLng(latitude, longitude);
+        map.setCenter(latlng);
+        map.setZoom(12);
+      }
+    );
   }
 
   // マーカーをクリックしたら吹き出しを表示
