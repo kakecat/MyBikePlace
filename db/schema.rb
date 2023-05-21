@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(version: 2023_05_21_103635) do
 
   create_table "spots", force: :cascade do |t|
     t.integer "user_id", default: 0, null: false
-    t.string "address", null: false
+    t.string "address"
     t.float "latitude", default: 0.0, null: false
     t.float "longitude", default: 0.0, null: false
     t.datetime "created_at", precision: 6, null: false
