@@ -78,14 +78,15 @@ ActiveRecord::Schema.define(version: 2023_05_20_044912) do
   create_table "posts", force: :cascade do |t|
     t.integer "user_id", default: 0, null: false
     t.integer "spot_id", default: 0, null: false
-    t.text "content", default: "", null: false
+    t.text "content", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "title", null: false
   end
 
   create_table "spots", force: :cascade do |t|
     t.integer "user_id", default: 0, null: false
-    t.string "address", default: "", null: false
+    t.string "address", null: false
     t.float "latitude", default: 0.0, null: false
     t.float "longitude", default: 0.0, null: false
     t.datetime "created_at", precision: 6, null: false
