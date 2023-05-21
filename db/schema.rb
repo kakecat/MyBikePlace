@@ -53,8 +53,8 @@ ActiveRecord::Schema.define(version: 2023_05_20_044912) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "post_id", null: false
+    t.integer "user_id", default: 0, null: false
+    t.integer "post_id", default: 0, null: false
     t.text "content", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -68,26 +68,26 @@ ActiveRecord::Schema.define(version: 2023_05_20_044912) do
   end
 
   create_table "follows", force: :cascade do |t|
-    t.integer "follower_id", null: false
-    t.integer "followed_id", null: false
+    t.integer "user_id", default: 0, null: false
+    t.integer "follower_id", default: 0, null: false
+    t.integer "followed_id", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "posts", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "spot_id", null: false
+    t.integer "user_id", default: 0, null: false
+    t.integer "spot_id", default: 0, null: false
     t.text "content", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "title", default: "", null: false
   end
 
   create_table "spots", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.integer "user_id", default: 0, null: false
     t.string "address", default: "", null: false
-    t.float "latitude", null: false
-    t.float "longitude", null: false
+    t.float "latitude", default: 0.0, null: false
+    t.float "longitude", default: 0.0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
