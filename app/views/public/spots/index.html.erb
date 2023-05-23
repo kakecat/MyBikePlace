@@ -123,8 +123,12 @@
   function getLocation(){ // 現在地周辺に地図を移動させる
     navigator.geolocation.getCurrentPosition(
       function(position) {
-        var latitude = position.coords.latitude;
-        var longitude = position.coords.longitude;
+        console.log("test")
+        console.log(position)
+        // var latitude = position.coords.latitude;
+        // var longitude = position.coords.longitude;
+        var latitude = <%= @spot.latitude %>;
+        var longitude = <%= @spot.longitude %>;
         var latlng = new google.maps.LatLng(latitude, longitude);
         map.setCenter(latlng);
         map.setZoom(12);

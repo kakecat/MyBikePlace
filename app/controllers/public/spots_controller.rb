@@ -1,6 +1,7 @@
 class Public::SpotsController < ApplicationController
   def index
     @users = User.all
+    @spot = Spot.last
     #gon.spots = Spot.all
 
     spots = Spot.joins(:post).select('spots.id,spots.latitude,spots.longitude,posts.title')
