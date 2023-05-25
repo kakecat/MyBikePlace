@@ -1,6 +1,6 @@
 <div class="post_search_map">
   <h3>地図から投稿を検索</h3>
-  <%= form_with url: public_spots_path, method: :get do |f| %>
+  <%= form_with(url: public_spots_path, method: :get) do |f| %>
     <div class="search-options">
       <div class="search-option">
         <%= f.radio_button :posts, "all_user", checked: true %>
@@ -22,9 +22,12 @@
       <%= f.button type: 'submit', class: "btn btn-primary", onclick: "deleteMarkers(); return false;" do %>
         投稿されたSPOTを表示
       <% end %>
-      <button type="button" class="btn btn-success current_position" onclick="getLocation()">
-        地図を現在地周辺に切り替える
-      </button>
+      <% if !current_user %>
+        <%= link_to 'ゲストログイン', public_users_guest_sign_in_path, method: :post, class: "btn btn-outline-info" %>
+      <% end %>
+      <!--<button type="button" class="btn btn-success current_position" onclick="getLocation()">-->
+      <!--  地図を最新の投稿先に切り替える-->
+      <!--</button>-->
     </div>
   <% end %>
 
@@ -120,21 +123,21 @@
     }
   }
 
-  function getLocation(){ // 現在地周辺に地図を移動させる
-    navigator.geolocation.getCurrentPosition(
-      function(position) {
-        console.log("test")
-        console.log(position)
-        // var latitude = position.coords.latitude;
-        // var longitude = position.coords.longitude;
-        var latitude = <%= @spot.latitude %>;
-        var longitude = <%= @spot.longitude %>;
-        var latlng = new google.maps.LatLng(latitude, longitude);
-        map.setCenter(latlng);
-        map.setZoom(12);
-      }
-    );
-  }
+  // function getLocation(){ // 現在地周辺に地図を移動させる
+  //   navigator.geolocation.getCurrentPosition(
+  //     function(position) {
+  //       console.log("test")
+  //       console.log(position)
+  //       // var latitude = position.coords.latitude;
+  //       // var longitude = position.coords.longitude;
+  //       var latitude = <%#= @spot.latitude %>;
+  //       var longitude = <%#= @spot.longitude %>;
+  //       var latlng = new google.maps.LatLng(latitude, longitude);
+  //       map.setCenter(latlng);
+  //       map.setZoom(12);
+  //     }
+  //   );
+  // }
 
   // マーカーをクリックしたら吹き出しを表示
   function markerEvent(i) {

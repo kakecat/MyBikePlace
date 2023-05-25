@@ -12,6 +12,10 @@ Rails.application.routes.draw do
   # ユーザー側
   namespace :public do
 
+    devise_scope :user do
+      post "users/guest_sign_in", to: "sessions#guest_sign_in"
+    end
+
 
     # ホーム
     get '/about' => 'homes#about', as: 'about'

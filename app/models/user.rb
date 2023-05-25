@@ -35,4 +35,12 @@ class User < ApplicationRecord
   def following?(user)
     followings.include?(user)
   end
+
+  def self.guest
+    find_or_create_by!(account_name: 'guestuser', email: 'guest@example.com', is_active: 'true') do |user|
+      user.password = SecureRandom.urlsafe_base64
+      user.account_name = 'guestuser'
+    end
+  end
+
 end
