@@ -18,6 +18,7 @@ class Public::SpotsController < ApplicationController
     gon.spots = spots.map do |spot|
       {
         id: spot.id,
+        post_id: spot.post.id,
         latitude: spot.latitude,
         longitude: spot.longitude,
         title: spot.title
