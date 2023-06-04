@@ -3,6 +3,7 @@ class Post < ApplicationRecord
   has_one_attached :spot_image
   belongs_to :user
   belongs_to :spot
+  has_many :tags, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
 

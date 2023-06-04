@@ -10,8 +10,12 @@ class Public::PostsController < ApplicationController
     spot = Spot.create!(longitude: params[:post][:longitude], latitude: params[:post][:latitude], user_id: current_user.id)
     @post.spot_id = spot.id
     @post.user_id = current_user.id
+    tags = Vision.get_image_data(post_params[:spot_image])
   
     if @post.save
+      tags.each do |tag|
+        @post.tags.create(name: tag)
+      end  #13,15-18コード追加
       redirect_to public_post_path(@post), notice: '投稿成功しました！'
     else
       redirect_to new_public_post_path, alert: '投稿に失敗しました。もう一度試してください。'

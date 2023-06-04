@@ -11,6 +11,11 @@
         <%= image_tag @post.get_image, size: "700x600", class: "img-fluid rounded" %>
       </div>
     </div>
+    <div class="tag-box">
+    <% @post.tags.each do |tag| %>
+      <span class="label"><%= tag.name %></span>
+    <% end %>
+    </div>
 
     <div class="col-lg-6">
       <div class="mt-3">
