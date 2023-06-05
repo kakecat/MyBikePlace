@@ -34,12 +34,12 @@ class Public::PostsController < ApplicationController
   def update
     @post = Post.find(params[:id])
     tags = Vision.get_image_data(post_params[:spot_image])
-  
-    ActiveRecord::Base.transaction do  #この記述を加えると動く
+
+    # ActiveRecord::Base.transaction do      #activejob inlineをいれることで解決した。
       if @post.update(post_params)
         # 既存のタグを削除
         @post.tags.destroy_all
-  
+
         # 新しいタグを生成して追加
         tags.each do |tag|
           @post.tags.create(name: tag)
@@ -48,7 +48,7 @@ class Public::PostsController < ApplicationController
       else
         render 'edit'
       end
-    end
+    # end
   end
 
   def destroy
