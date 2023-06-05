@@ -11,7 +11,7 @@ class Public::PostsController < ApplicationController
     @post.spot_id = spot.id
     @post.user_id = current_user.id
     tags = Vision.get_image_data(post_params[:spot_image])
-  
+
     if @post.save
       tags.each do |tag|
         @post.tags.create(name: tag)
@@ -33,10 +33,21 @@ class Public::PostsController < ApplicationController
 
   def update
     @post = Post.find(params[:id])
-    if @post.update(post_params)
-      redirect_to public_post_path(@post), notice: '変更が成功しました！'
-    else
-      render 'edit'
+    tags = Vision.get_image_data(post_params[:spot_image])
+  
+    ActiveRecord::Base.transaction do  #この記述を加えると動く
+      if @post.update(post_params)
+        # 既存のタグを削除
+        @post.tags.destroy_all
+  
+        # 新しいタグを生成して追加
+        tags.each do |tag|
+          @post.tags.create(name: tag)
+        end
+        redirect_to public_post_path(@post), notice: '変更が成功しました！'
+      else
+        render 'edit'
+      end
     end
   end
 
