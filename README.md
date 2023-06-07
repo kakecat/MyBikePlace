@@ -34,7 +34,10 @@ MyBikePlaceを使ってお気に入りの場所を投稿したり、その投稿
 - ユーザー同士で交流をしてみたいとき
 
 ## 設計書
-
+・ER図
+https://drive.google.com/file/d/1cgv0Ni1GQI72Z4O-cVbznSqY8Jq2GdAl/view?usp=sharing
+・テーブル定義書
+https://docs.google.com/spreadsheets/d/13P-S3By-gThaoR83Q9HQdkvJsAJK2ZOcc186UV0n23U/edit?usp=sharing
 
 ## 開発環境
 - OS：Linux(CentOS)
@@ -42,6 +45,3 @@ MyBikePlaceを使ってお気に入りの場所を投稿したり、その投稿
 - フレームワーク：Ruby on Rails
 - JSライブラリ：jQuery
 - IDE：Cloud9
-
-## 使用素材
-使用検討中です
