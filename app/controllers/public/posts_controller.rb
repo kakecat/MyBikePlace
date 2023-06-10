@@ -15,7 +15,7 @@ class Public::PostsController < ApplicationController
     if @post.save
       tags.each do |tag|
         @post.tags.create(name: tag)
-      end  #13,15-18コード追加
+      end  #13,15-18コード追加,（画像認識機能）、タグで表示させる
       redirect_to public_post_path(@post), notice: '投稿成功しました！'
     else
       redirect_to new_public_post_path, alert: '投稿に失敗しました。もう一度試してください。'
