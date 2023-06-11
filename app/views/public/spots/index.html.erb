@@ -148,5 +148,6 @@
 </script>
 
 <%#= render partial: 'public/spots/index_map', locals: { posts: @posts } %>
+<!--部分テンプレートでは吹き出し表示できない-->
 
 <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_KEY'] %>&callback=initMap" async defer></script>
